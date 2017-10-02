@@ -1,8 +1,16 @@
 <?php
 define('API_HEADQUARTER', true);
 
-require('Console.php');
+require_once('Console.php');
 use Console\Console;
+
+require_once("Config.php");
+require_once("Auth.php");
+
+$dbh = new PDO("mysql:host=89.46.111.51;dbname=Sql1140623_1", "Sql1140623", "p60660b6n3");
+//$dbh = new PDO("mysql:host=localhost;dbname=instrumentsgenealogy", "root", "root");
+$config = new PHPAuth\Config($dbh, 'SYS01_CONFIG');
+$auth   = new PHPAuth\Auth($dbh, $config);
 
 interface DatabaseInterface {
 	public function getSql($name);
@@ -2646,7 +2654,8 @@ class PHP_CRUD_API {
 		}
 	}
 
-	public function executeCommand() {
+	public function executeCommand(PHPAuth\Auth $auth) {
+        /*if ($auth->checkSession($this->settings['hash'])) Console::log(json_encode($this->settings));*/
 		if ($this->settings['origin']) {
 			$this->allowOrigin($this->settings['origin'],$this->settings['allow_origin']);
 		}
@@ -2682,7 +2691,7 @@ class PHP_CRUD_API {
                 }
                 if ($request !== '') {
                     require_once($request.'/index.php');
-                    RestService::execute($request, $this->settings);
+                    RestService::execute($auth, $request, $this->settings);
                 } else {
                     http_response_code(404);
                 }
@@ -2715,25 +2724,24 @@ class PHP_CRUD_API {
 
 // uncomment the lines below when running in stand-alone mode:
 
-// $api = new PHP_CRUD_API(array(
+$api = new PHP_CRUD_API(array(
+    'dbengine'=>'MySQL',
+    'hostname'=>'89.46.111.51',
+    'username'=>'Sql1140623',
+    'password'=>'p60660b6n3',
+    'database'=>'Sql1140623_1',
+    'charset'=>'utf8'
+));
+$api->executeCommand($auth);
+//$api = new PHP_CRUD_API(array(
 // 	'dbengine'=>'MySQL',
-// 	'hostname'=>'89.46.111.51',
-// 	'username'=>'Sql1140623',
-// 	'password'=>'p60660b6n3',
-// 	'database'=>'Sql1140623_1',
+// 	'hostname'=>'localhost',
+// 	'username'=>'root',
+// 	'password'=>'root',
+// 	'database'=>'instrumentsgenealogy',
 // 	'charset'=>'utf8'
 // ));
 // $api->executeCommand();
-
-$api = new PHP_CRUD_API(array(
- 	'dbengine'=>'MySQL',
- 	'hostname'=>'localhost',
- 	'username'=>'root',
- 	'password'=>'root',
- 	'database'=>'instrumentsgenealogy',
- 	'charset'=>'utf8'
- ));
- $api->executeCommand();
 
 // For Microsoft SQL Server 2012 use:
 

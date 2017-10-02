@@ -1,10 +1,10 @@
 <?php
 namespace PHPAuth;
 
-require('lib/zxcvbn-php/Zxcvbn.php');
-require('lib/phpmailer/Exception.php');
-require('lib/phpmailer/PHPMailer.php');
-require('Console.php');
+require_once('lib/zxcvbn-php/Zxcvbn.php');
+require_once('lib/phpmailer/Exception.php');
+require_once('lib/phpmailer/PHPMailer.php');
+require_once('Console.php');
 
 use ZxcvbnPhp\Zxcvbn;
 use PHPMailer;
@@ -200,7 +200,6 @@ class Auth
         if ($this->isEmailTaken($email)) {
             $this->addAttempt();
             $return['message'] = $this->lang["email_taken"];
-            Console::log($return['message']);
 
             return $return;
         }
@@ -1293,7 +1292,6 @@ class Auth
 
     public function isBlocked()
     {
-        echo "<script>console.log('asdasdasdasd');</script>";
         $ip = $this->getIp();
         $this->deleteAttempts($ip, false);
         $query = $this->dbh->prepare("SELECT count(*) FROM {$this->config->table_attempts} WHERE ip = ?");

@@ -51,6 +51,15 @@
         
 
         ?>
+        <script>
+        var httpRequest = new XMLHttpRequest();
+        httpRequest.open('POST', 'http://www.instrumentsgenealogy.com/api/api.php/auth/login');
+        httpRequest.onreadystatechange = function (data) {
+          // code
+        }
+        httpRequest.setRequestHeader('Content-Type', 'application/json');
+        httpRequest.send(JSON.stringify({email: 'gianmarco.laggia@gmail.com', password: 'manugia33@@'}));
+        </script>
 API
 </body>
 </html>
