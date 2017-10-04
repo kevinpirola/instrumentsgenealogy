@@ -1,4 +1,4 @@
-// Generated on 2017-10-01 using generator-angular 0.15.1
+// Generated on 2017-10-03 using generator-angular 0.16.0
 'use strict';
 
 // # Globbing
@@ -371,7 +371,7 @@ module.exports = function (grunt) {
     ngtemplates: {
       dist: {
         options: {
-          module: 'instrumentsgenealogyApp',
+          module: 'igFrontendApp',
           htmlmin: '<%= htmlmin.dist.options %>',
           usemin: 'scripts/scripts.js'
         },

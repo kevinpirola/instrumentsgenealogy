@@ -2,13 +2,13 @@
 
 /**
  * @ngdoc function
- * @name igFrontendApp.controller:MainCtrl
+ * @name igFrontendApp.controller:AboutCtrl
  * @description
- * # MainCtrl
+ * # AboutCtrl
  * Controller of the igFrontendApp
  */
 angular.module('igFrontendApp')
-  .controller('MainCtrl', function () {
+  .controller('AboutCtrl', function () {
     this.awesomeThings = [
       'HTML5 Boilerplate',
       'AngularJS',

@@ -2,14 +2,14 @@
 
 /**
  * @ngdoc overview
- * @name instrumentsgenealogyApp
+ * @name igFrontendApp
  * @description
- * # instrumentsgenealogyApp
+ * # igFrontendApp
  *
  * Main module of the application.
  */
 angular
-  .module('instrumentsgenealogyApp', [
+  .module('igFrontendApp', [
     'ngAnimate',
     'ngCookies',
     'ngResource',
@@ -23,6 +23,11 @@ angular
         templateUrl: 'views/main.html',
         controller: 'MainCtrl',
         controllerAs: 'main'
+      })
+      .when('/about', {
+        templateUrl: 'views/about.html',
+        controller: 'AboutCtrl',
+        controllerAs: 'about'
       })
       .otherwise({
         redirectTo: '/'
