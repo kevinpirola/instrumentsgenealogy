@@ -1,16 +1,21 @@
 'use strict';
 
 angular.module('igFrontendApp')
-    .component('user-info-bar', {
-        transclude: true,
+    .component('userInfoBar', {
+        templateUrl: 'scripts/components/user-info-bar/user-info-bar.component.html',
+        controller: 'UserInfoBarController',
+        controllerAs: '$ctrl',
         bindings: {
-            title: '@'
-        },
-        controller: function() {
-            this.$onInit = function() {
-                this.tabsCtrl.addPane(this);
-                console.log(this);
-            };
-        },
-        templateUrl: './user-info-bar.component.html'
-    });
+            variable: '<'
+        }
+    })
+    .controller('UserInfoBarController', ['User', function(User) {
+        var self = this;
+        
+        User.get();
+
+        self.someFunction = function() {
+            
+            return {};
+        };
+    }]);

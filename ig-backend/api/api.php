@@ -7,8 +7,8 @@ use Console\Console;
 require_once("Config.php");
 require_once("Auth.php");
 
-$dbh = new PDO("mysql:host=89.46.111.51;dbname=Sql1140623_1", "Sql1140623", "p60660b6n3");
-//$dbh = new PDO("mysql:host=localhost;dbname=instrumentsgenealogy", "root", "root");
+//$dbh = new PDO("mysql:host=89.46.111.51;dbname=Sql1140623_1", "Sql1140623", "p60660b6n3");
+$dbh = new PDO("mysql:host=localhost;dbname=instrumentsgenealogy", "root", "root");
 $config = new PHPAuth\Config($dbh, 'SYS01_CONFIG');
 $auth   = new PHPAuth\Auth($dbh, $config);
 
@@ -2724,24 +2724,24 @@ class PHP_CRUD_API {
 
 // uncomment the lines below when running in stand-alone mode:
 
-$api = new PHP_CRUD_API(array(
-    'dbengine'=>'MySQL',
-    'hostname'=>'89.46.111.51',
-    'username'=>'Sql1140623',
-    'password'=>'p60660b6n3',
-    'database'=>'Sql1140623_1',
-    'charset'=>'utf8'
-));
-$api->executeCommand($auth);
 //$api = new PHP_CRUD_API(array(
-// 	'dbengine'=>'MySQL',
-// 	'hostname'=>'localhost',
-// 	'username'=>'root',
-// 	'password'=>'root',
-// 	'database'=>'instrumentsgenealogy',
-// 	'charset'=>'utf8'
-// ));
-// $api->executeCommand();
+//    'dbengine'=>'MySQL',
+//    'hostname'=>'89.46.111.51',
+//    'username'=>'Sql1140623',
+//    'password'=>'p60660b6n3',
+//    'database'=>'Sql1140623_1',
+//    'charset'=>'utf8'
+//));
+//$api->executeCommand($auth);
+$api = new PHP_CRUD_API(array(
+ 	'dbengine'=>'MySQL',
+ 	'hostname'=>'localhost',
+ 	'username'=>'root',
+ 	'password'=>'root',
+ 	'database'=>'instrumentsgenealogy',
+ 	'charset'=>'utf8'
+ ));
+ $api->executeCommand($auth);
 
 // For Microsoft SQL Server 2012 use:
 

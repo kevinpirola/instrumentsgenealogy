@@ -4,6 +4,12 @@ angular.module('igFrontendApp')
     .factory('authHttpResponseInterceptor', ['$q', '$location', '$rootScope', 'toaster', function ($q, $location, $rootScope, toaster) {
         var errorServerDown = false;
         return {
+            request: function(request) {
+                console.log(request);
+                request.headers.Authorization = 'Basic asdasdasdasd';
+                //request.hash = $rootScope.hash;
+                return request;
+            },
             response: function (response) {
                 if (response.status === 401) {
                     //console.log('Response 401');
@@ -11,6 +17,7 @@ angular.module('igFrontendApp')
                 return response || $q.when(response);
             },
             responseError: function (rejection) {
+                $rootScope.hash = 'adasdasdas';
                 var returnTo = $location.path().replace(/^\/|\/$/g, '');
 
                 if (rejection.status === -1) {
