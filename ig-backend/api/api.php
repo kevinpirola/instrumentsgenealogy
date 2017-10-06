@@ -248,7 +248,7 @@ class MySQL implements DatabaseInterface {
 	}
 }
 
-class PostgreSQL implements DatabaseInterface {
+/*class PostgreSQL implements DatabaseInterface {
 
 	protected $db;
 	protected $queries;
@@ -1100,7 +1100,7 @@ class SQLite implements DatabaseInterface {
 	public function jsonDecode($string) {
 		return json_decode($string);
 	}
-}
+}*/
 
 class PHP_CRUD_API {
 
@@ -2703,8 +2703,8 @@ class PHP_CRUD_API {
                 }
                 if ($request !== '') {
                     if ($this->settings['method'] !== 'OPTIONS') {
-                        if ($request === 'auth/login' || $this->checkAuthorization($auth)) {
-                            require_once($request.'/index.php');
+                        require_once($request.'/index.php');
+                        if (!RestService::needsAuthorization() || $this->checkAuthorization($auth)) {
                             RestService::execute($auth, $request, $this->settings);
                         } else {
                             http_response_code(401);

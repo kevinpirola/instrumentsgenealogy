@@ -8,15 +8,14 @@
 
     class RestService {
         public static function execute(PHPAuth\Auth $auth, $endpoint, $settings) {
-            $post = json_decode($settings['post'], true);
             $res = 'asdasdasd';//$auth->login($post['email'], $post['password'], 1);
             header('Content-Type: application/json; charset=utf-8');
-            if ($res['error']) {
-                http_response_code(401);
-            } else {
-                http_response_code(200);
-                echo json_encode($res);
-            }
+            http_response_code(200);
+            echo json_encode($res);
+        }
+        
+        public static function needsAuthorization() {
+            return false;
         }
     }
 ?>

@@ -13,5 +13,9 @@
             $hash = $pos ? substr($request, $pos + 1) : '';
             $auth->logout($hash);
         }
+        
+        public static function needsAuthorization() {
+            return false;
+        }
     }
 ?>

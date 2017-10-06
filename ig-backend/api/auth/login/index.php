@@ -15,8 +15,12 @@
                 http_response_code(401);
             } else {
                 http_response_code(200);
-                echo json_encode($res);
             }
+            echo json_encode($res);
+        }
+        
+        public static function needsAuthorization() {
+            return false;
         }
     }
 ?>
