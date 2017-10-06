@@ -1,13 +1,11 @@
 'use strict';
 
 angular.module('igFrontendApp')
-    .factory('authHttpResponseInterceptor', ['$q', '$location', '$rootScope', 'toaster', function ($q, $location, $rootScope, toaster) {
+    .factory('authHttpResponseInterceptor', ['$q', '$location', '$rootScope', 'toaster', '$cookies', function ($q, $location, $rootScope, toaster, $cookies) {
         var errorServerDown = false;
         return {
             request: function(request) {
-                console.log(request);
-                request.headers.Authorization = 'Basic asdasdasdasd';
-                //request.hash = $rootScope.hash;
+                request.headers.Authorization = 'Basic ' + $cookies.get('IG_AUTH_COOKIE');
                 return request;
             },
             response: function (response) {
@@ -17,7 +15,6 @@ angular.module('igFrontendApp')
                 return response || $q.when(response);
             },
             responseError: function (rejection) {
-                $rootScope.hash = 'adasdasdas';
                 var returnTo = $location.path().replace(/^\/|\/$/g, '');
 
                 if (rejection.status === -1) {

@@ -2653,12 +2653,24 @@ class PHP_CRUD_API {
 			}
 		}
 	}
+    
+    public function checkAuthorization(PHPAuth\Auth $auth) {
+        $headers = apache_request_headers();
+        if (array_key_exists('Authorization', $headers)) {
+            $hash = $headers['Authorization'];
+            $hash = substr($hash, 6);
+            return $auth->checkSession($hash);
+        } else {
+            return false;
+        }
+    }
 
 	public function executeCommand(PHPAuth\Auth $auth) {
-        /*if ($auth->checkSession($this->settings['hash'])) Console::log(json_encode($this->settings));*/
-		if ($this->settings['origin']) {
-			$this->allowOrigin($this->settings['origin'],$this->settings['allow_origin']);
-		}
+        header('Access-Control-Allow-Headers: Authorization, Content-Type');
+        header('Access-Control-Allow-Origin: *');
+//		if ($this->settings['origin']) {
+//			$this->allowOrigin($this->settings['origin'],$this->settings['allow_origin']);
+//		}
 		if (!$this->settings['request']) {
 			$this->swagger($this->settings);
 		} else {
@@ -2690,8 +2702,17 @@ class PHP_CRUD_API {
                     $request = $pos ? substr($request, 0, $pos) : '';
                 }
                 if ($request !== '') {
-                    require_once($request.'/index.php');
-                    RestService::execute($auth, $request, $this->settings);
+                    if ($this->settings['method'] !== 'OPTIONS') {
+                        if ($request === 'auth/login' || $this->checkAuthorization($auth)) {
+                            require_once($request.'/index.php');
+                            RestService::execute($auth, $request, $this->settings);
+                        } else {
+                            http_response_code(401);
+                        }
+                    } else {
+                        http_response_code(200);
+                        header('Access-Control-Allow-Methods: POST, PUT, GET, DELETE, OPTIONS');
+                    }
                 } else {
                     http_response_code(404);
                 }
@@ -2741,7 +2762,7 @@ $api = new PHP_CRUD_API(array(
  	'database'=>'instrumentsgenealogy',
  	'charset'=>'utf8'
  ));
- $api->executeCommand($auth);
+$api->executeCommand($auth);
 
 // For Microsoft SQL Server 2012 use:
 
