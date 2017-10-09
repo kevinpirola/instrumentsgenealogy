@@ -475,7 +475,7 @@ module.exports = function (grunt) {
                 constants: {
                     ENV: {
                         name: 'development',
-                        apiEndpoint: 'http://localhost:8888/ig/api/api.php'
+                        apiEndpoint: 'http://localhost:8888/api/api.php'
                     }
                 }
             },
