@@ -8,10 +8,19 @@
  * Controller of the igFrontendApp
  */
 angular.module('igFrontendApp')
-  .controller('MainCtrl', function () {
-    this.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ];
-  });
+  .controller('MainCtrl', ['NgTableParams', 'Instruments', function (NgTableParams, Instruments) {
+    var self = this;
+    
+    self.tableParams = new NgTableParams({}, {
+        getData: function(params){
+            /*return executeQuery(params).then(function(data){
+                params.total(data.inlineCount);
+                return data.results;
+            });*/
+            console.log(params);
+            return Instruments.query();
+        }
+        //dataset: data
+    });
+
+  }]);

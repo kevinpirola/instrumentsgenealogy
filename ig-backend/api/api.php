@@ -1992,21 +1992,51 @@ class PHP_CRUD_API {
 			$sql = $this->db->addLimitToSql($sql,$page[1],$page[0]);
 		}
 		if ($result = $this->db->query($sql,$params)) {
-			echo '"columns":';
+//			echo '"columns":';
+//			$keys = array_keys($fields[$table]);
+//			echo json_encode($keys);
+//			$keys = array_flip($keys);
+//			echo ',"records":[';
+//			$first_row = true;
+//			while ($row = $this->fetchRow($result,$fields[$table])) {
+//				if ($first_row) $first_row = false;
+//				else echo ',';
+//				if (isset($collect[$table])) {
+//					foreach (array_keys($collect[$table]) as $field) {
+//						$collect[$table][$field][] = $row[$keys[$field]];
+//					}
+//				}
+//				echo json_encode($row);
+//			}
+//			$this->db->close($result);
+//			echo ']';
+//			if ($count) echo ',';
+            echo '"columns":';
 			$keys = array_keys($fields[$table]);
 			echo json_encode($keys);
+            $preflipKeys = $keys;
 			$keys = array_flip($keys);
-			echo ',"records":[';
+            echo ',"poppe":';
+            echo json_encode($keys);
+			echo ',"records": [';
 			$first_row = true;
 			while ($row = $this->fetchRow($result,$fields[$table])) {
 				if ($first_row) $first_row = false;
 				else echo ',';
 				if (isset($collect[$table])) {
 					foreach (array_keys($collect[$table]) as $field) {
-						$collect[$table][$field][] = $row[$keys[$field]];
+                        $collect[$table][$field][] = $row[$keys[$field]];
 					}
 				}
-				echo json_encode($row);
+                echo '{';
+                $first = true;
+                foreach($row as $i=>$r) {
+                    if($first) $first = false;
+                    else echo ',';
+                    echo '"'.$preflipKeys[$i].'": "'.$r.'"';
+                }
+                echo '}';
+				//echo json_encode($row);
 			}
 			$this->db->close($result);
 			echo ']';
@@ -2666,7 +2696,7 @@ class PHP_CRUD_API {
     }
 
 	public function executeCommand(PHPAuth\Auth $auth) {
-        header('Access-Control-Allow-Headers: Authorization, Content-Type');
+        header('Access-Control-Allow-Headers: Authorization, Content-Type, X-CSRF-TOKEN');
         header('Access-Control-Allow-Origin: *');
 //		if ($this->settings['origin']) {
 //			$this->allowOrigin($this->settings['origin'],$this->settings['allow_origin']);
@@ -2677,23 +2707,32 @@ class PHP_CRUD_API {
             $table = $this->parseRequestParameter($this->settings['request'], 'a-zA-Z0-9\-_', false);
             $tableList = $this->getTableList($this->settings['database'], $table);
             if (!empty($tableList)) {
-                $parameters = $this->getParameters($this->settings);
-                switch($parameters['action']){
-                    case 'list': $output = $this->listCommand($parameters); break;
-                    case 'read': $output = $this->readCommand($parameters); break;
-                    case 'create': $output = $this->createCommand($parameters); break;
-                    case 'update': $output = $this->updateCommand($parameters); break;
-                    case 'delete': $output = $this->deleteCommand($parameters); break;
-                    case 'increment': $output = $this->incrementCommand($parameters); break;
-                    case 'headers': $output = $this->headersCommand($parameters); break;
-                    default: $output = false;
-                }
-                if ($output!==false) {
-                    $this->startOutput();
-                    echo json_encode($output);
-                }
-                if ($parameters['after']) {
-                    $this->applyAfterHandler($parameters,$output);
+                if ($this->settings['method'] !== 'OPTIONS') {
+                    if ($this->checkAuthorization($auth)) {
+                        $parameters = $this->getParameters($this->settings);
+                        switch($parameters['action']){
+                            case 'list': $output = $this->listCommand($parameters); break;
+                            case 'read': $output = $this->readCommand($parameters); break;
+                            case 'create': $output = $this->createCommand($parameters); break;
+                            case 'update': $output = $this->updateCommand($parameters); break;
+                            case 'delete': $output = $this->deleteCommand($parameters); break;
+                            case 'increment': $output = $this->incrementCommand($parameters); break;
+                            case 'headers': $output = $this->headersCommand($parameters); break;
+                            default: $output = false;
+                        }
+                        if ($output!==false) {
+                            $this->startOutput();
+                            echo json_encode($output);
+                        }
+                        if ($parameters['after']) {
+                            $this->applyAfterHandler($parameters,$output);
+                        }
+                    } else {
+                        http_response_code(401);
+                    }
+                } else {
+                    http_response_code(200);
+                    header('Access-Control-Allow-Methods: POST, PUT, GET, DELETE, OPTIONS');
                 }
             } else {
                 $request = $this->settings['request'];

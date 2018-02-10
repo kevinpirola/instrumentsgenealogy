@@ -42,5 +42,8 @@
   },
   "scripts": {
     "test": "karma start test/karma.conf.js"
+  },
+  "dependencies": {
+    "ng-table": "^3.0.1"
   }
 }

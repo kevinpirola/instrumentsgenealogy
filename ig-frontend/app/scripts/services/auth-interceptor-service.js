@@ -5,12 +5,14 @@ angular.module('igFrontendApp')
         var errorServerDown = false;
         return {
             request: function(request) {
+                console.log('cccccccccc');
                 request.headers.Authorization = 'Basic ' + $cookies.get('IG_AUTH_COOKIE');
                 return request;
             },
             response: function (response) {
+                console.log('bbbbbbbbbb');
                 if (response.status === 401) {
-                    //console.log('Response 401');
+                    console.log('Response 401');
                 }
                 return response || $q.when(response);
             },

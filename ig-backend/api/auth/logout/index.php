@@ -8,10 +8,17 @@
 
     class RestService {
         public static function execute(PHPAuth\Auth $auth, $endpoint, $settings) {
-            extract($settings);
-            $pos = strrpos($request, '/');
-            $hash = $pos ? substr($request, $pos + 1) : '';
-            $auth->logout($hash);
+            $headers = apache_request_headers();
+            if (array_key_exists('Authorization', $headers)) {
+                $hash = $headers['Authorization'];
+                $hash = substr($hash, 6);
+                $succ = $auth->logout($hash);
+                if (!$succ) {
+                    http_response_code(403);
+                }
+            } else {
+                http_response_code(200);
+            }
         }
         
         public static function needsAuthorization() {

@@ -1,1 +1,8 @@
-user info bar
+<div class="row">
+    <div class="col-md-12" ng-if="$ctrl.user.username">
+        Hi, {{$ctrl.user.username}} <i class="fa fa-user-circle"></i> <i ng-click="$ctrl.logout()" class="fa fa-sign-out"></i>
+    </div>
+    <div class="col-md-12" ng-if="!$ctrl.user.username">
+        <a href="#!login">Accedi</a> - <a href="">Registrati</a>
+    </div>
+</div>

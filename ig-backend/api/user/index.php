@@ -8,10 +8,22 @@
 
     class RestService {
         public static function execute(PHPAuth\Auth $auth, $endpoint, $settings) {
-            $res = 'asdasdasd';//$auth->login($post['email'], $post['password'], 1);
             header('Content-Type: application/json; charset=utf-8');
             http_response_code(200);
-            echo json_encode($res);
+            $headers = apache_request_headers();
+            if (array_key_exists('Authorization', $headers)) {
+                $hash = $headers['Authorization'];
+                $hash = substr($hash, 6);
+                if($auth->checkSession($hash)){
+                    $suid = $auth->getSessionUID($hash);
+                    $user = $auth->getUser($suid);
+                    echo json_encode($user);
+                } else {
+                    echo '{}';
+                }
+            } else {
+                echo '{}';
+            }
         }
         
         public static function needsAuthorization() {

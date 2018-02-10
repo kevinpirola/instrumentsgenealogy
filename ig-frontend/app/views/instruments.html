@@ -1,0 +1,8 @@
+<table ng-table="$ctrl.tableParams" class="table" show-filter="true">
+    <tr ng-repeat="inst in $data">
+        <td title="'S\N'" filter="{ AN01_SN: 'text'}" sortable="'AN01_SN'">
+            {{inst.AN01_SN}}</td>
+        <td title="'Model'" filter="{ AN01_ID_AN03_MODEL: 'number'}" sortable="'AN01_ID_AN03_MODEL'">
+            {{inst.AN01_ID_AN03_MODEL}}</td>
+    </tr>
+</table>

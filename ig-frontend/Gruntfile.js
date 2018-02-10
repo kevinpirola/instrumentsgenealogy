@@ -86,6 +86,10 @@ module.exports = function (grunt) {
                                 connect.static('./bower_components')
                             ),
                             connect().use(
+                                '/node_modules',
+                                connect.static('./node_modules')
+                            ),
+                            connect().use(
                                 '/app/styles',
                                 connect.static('./app/styles')
                             ),
@@ -475,7 +479,7 @@ module.exports = function (grunt) {
                 constants: {
                     ENV: {
                         name: 'development',
-                        apiEndpoint: 'http://localhost:8888/api/api.php'
+                        apiEndpoint: 'http://localhost:8000/api/api.php'
                     }
                 }
             },

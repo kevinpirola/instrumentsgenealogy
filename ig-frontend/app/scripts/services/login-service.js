@@ -100,20 +100,19 @@ angular.module('igFrontendApp')
                 headers[$http.defaults.xsrfHeaderName] = csrfToken;
 
                 // Post the credentials for logging out
-                $http.post(ENV.apiEndpoint + '/auth/logout', '', {
-                        headers: headers
-                    })
-                    .success(successHandler)
-                    .error(function (data, status, headers, config) {
-
-                        if (isCSRFTokenInvalidOrMissing(data, status)) {
-                            $log.error('The obtained CSRF token was either missing or invalid. Have you turned on your cookies?');
-
-                        } else {
-                            // Nope, the error is due to something else. Run the error handler...
-                            errorHandler(data, status, headers, config);
-                        }
-                    });
+//                $http.post(ENV.apiEndpoint + '/auth/logout', '', {
+//                        headers: headers
+//                    }, successHandler, 
+//                    function (data, status, headers, config) {
+//
+//                        if (isCSRFTokenInvalidOrMissing(data, status)) {
+//                            $log.error('The obtained CSRF token was either missing or invalid. Have you turned on your cookies?');
+//                        } else {
+//                            // Nope, the error is due to something else. Run the error handler...
+//                            errorHandler(data, status, headers, config);
+//                        }
+//                    });
+                logoutResources.post({}, successHandler, errorHandler);
 
             }).catch(errorHandler
                 /*function (response) {

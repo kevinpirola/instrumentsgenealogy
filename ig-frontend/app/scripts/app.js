@@ -17,7 +17,8 @@ angular
         'ngSanitize',
         'ngTouch',
         'toaster',
-        'config'
+        'config',
+        'ngTable'
     ])
     .config(['$httpProvider', function ($httpProvider) {
         //Http Intercpetor to check auth failures for xhr requests

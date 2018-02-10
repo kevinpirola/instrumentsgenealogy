@@ -1,0 +1,5 @@
+<ul class="nav navbar-nav" ng-if="$ctrl.logged">
+    <li ng-class="{active: $ctrl.isCurrentPage('')}"><a href="#!/" class="button">Home</a></li>
+    <li ng-class="{active: $ctrl.isCurrentPage('instruments')}"><a href="#!/instruments" class="button">List</a></li>
+    <li><a href="" ng-click="$ctrl.logout()" class="button">Logout</a></li>
+</ul>

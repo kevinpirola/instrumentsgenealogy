@@ -9,7 +9,7 @@
     class RestService {
         public static function execute(PHPAuth\Auth $auth, $endpoint, $settings) {
             $post = json_decode($settings['post'], true);
-            $res = $auth->login($post['email'], $post['password'], 1);
+            $res = $auth->login($post['username'], $post['password'], 1);
             header('Content-Type: application/json; charset=utf-8');
             if ($res['error']) {
                 http_response_code(401);
